@@ -722,7 +722,21 @@ var _cartReducer = require("./cartReducer");
 var _cartReducerDefault = parcelHelpers.interopDefault(_cartReducer);
 var _wishListReducer = require("./wishListReducer");
 var _wishListReducerDefault = parcelHelpers.interopDefault(_wishListReducer);
-const reducer = (0, _redux.combineReducers)({
+function myCombineReducers(reducers) {
+    const reducersKeys = Object.keys(reducers);
+    return function(state = {}, action) {
+        const nextState = {};
+        for(let i = 0; i < reducersKeys.length; i++){
+            const key = reducersKeys[i];
+            const reducer = reducers[key];
+            const previousStateForKey = state[key];
+            const nextStateForKey = reducer(previousStateForKey, action);
+            nextState[key] = nextStateForKey;
+        }
+        return nextState;
+    };
+}
+const reducer = myCombineReducers({
     products: (0, _productsReducerDefault.default),
     cartItems: (0, _cartReducerDefault.default),
     wishList: (0, _wishListReducerDefault.default)
