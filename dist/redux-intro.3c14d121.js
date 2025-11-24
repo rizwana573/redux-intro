@@ -742,65 +742,20 @@ const reducer = myCombineReducers({
     wishList: (0, _wishListReducerDefault.default)
 });
 const store = (0, _redux.createStore)(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-store.dispatch({
-    type: (0, _cartReducer.CART_ADD_ITEM),
-    payload: {
-        productId: 1,
-        quantity: 1
-    }
-});
+store.dispatch((0, _cartReducer.addItemToCart)(1, 1));
 console.log(store.getState());
-store.dispatch({
-    type: (0, _cartReducer.CART_ADD_ITEM),
-    payload: {
-        productId: 10,
-        quantity: 1
-    }
-});
+store.dispatch((0, _cartReducer.addItemToCart)(10, 1));
 console.log(store.getState());
-store.dispatch({
-    type: (0, _cartReducer.CART_REMOVE_ITEM),
-    payload: {
-        productId: 1,
-        quantity: 1
-    }
-});
+store.dispatch((0, _cartReducer.removeItemFromCart)(1, 1));
 console.log(store.getState());
-store.dispatch({
-    type: (0, _cartReducer.CART_ITEM_INCREASE_QUANTITY),
-    payload: {
-        productId: 10,
-        quantity: 4
-    }
-});
+store.dispatch((0, _cartReducer.increaseCartItemQuantity)(10, 4));
 console.log(store.getState());
-store.dispatch({
-    type: (0, _cartReducer.CART_ITEM_DECREASE_QUANTITY),
-    payload: {
-        productId: 10,
-        quantity: 2
-    }
-});
+store.dispatch((0, _cartReducer.decreaseCartItemQuantity)(10, 1));
 console.log(store.getState());
-store.dispatch({
-    type: (0, _wishListReducer.WISHLIST_ADD_ITEM),
-    payload: {
-        productId: 10
-    }
-});
-store.dispatch({
-    type: (0, _wishListReducer.WISHLIST_ADD_ITEM),
-    payload: {
-        productId: 1
-    }
-});
+store.dispatch((0, _wishListReducer.addItemToWishList)(10));
+store.dispatch((0, _wishListReducer.addItemToWishList)(2));
 console.log(store.getState());
-store.dispatch({
-    type: (0, _wishListReducer.WISHLIST_REMOVE_ITEM),
-    payload: {
-        productId: 10
-    }
-});
+store.dispatch((0, _wishListReducer.removeItemFromWishList)(10));
 console.log(store.getState());
 
 },{"redux":"7RvxM","@parcel/transformer-js/src/esmodule-helpers.js":"KcLLW","./productsReducer":"aSQ8Q","./cartReducer":"7K9qs","./wishListReducer":"fIGBC"}],"7RvxM":[function(require,module,exports,__globalThis) {
@@ -1405,6 +1360,10 @@ parcelHelpers.export(exports, "CART_REMOVE_ITEM", ()=>CART_REMOVE_ITEM);
 parcelHelpers.export(exports, "CART_ITEM_INCREASE_QUANTITY", ()=>CART_ITEM_INCREASE_QUANTITY);
 parcelHelpers.export(exports, "CART_ITEM_DECREASE_QUANTITY", ()=>CART_ITEM_DECREASE_QUANTITY);
 parcelHelpers.export(exports, "default", ()=>cartReducer);
+parcelHelpers.export(exports, "addItemToCart", ()=>addItemToCart);
+parcelHelpers.export(exports, "removeItemFromCart", ()=>removeItemFromCart);
+parcelHelpers.export(exports, "increaseCartItemQuantity", ()=>increaseCartItemQuantity);
+parcelHelpers.export(exports, "decreaseCartItemQuantity", ()=>decreaseCartItemQuantity);
 const CART_ADD_ITEM = "cart/addItem";
 const CART_REMOVE_ITEM = "cart/removeItem";
 const CART_ITEM_INCREASE_QUANTITY = "cart/increaseItemQuantity";
@@ -1422,7 +1381,7 @@ function cartReducer(state = [], action) {
             return state.map((cartItem)=>{
                 if (cartItem.productId === action.payload.productId) return {
                     ...cartItem,
-                    quantity: cartItem.quantity + 1
+                    quantity: cartItem.quantity + action.payload.quantity
                 };
                 return cartItem;
             });
@@ -1430,13 +1389,49 @@ function cartReducer(state = [], action) {
             return state.map((cartItem)=>{
                 if (cartItem.productId === action.payload.productId) return {
                     ...cartItem,
-                    quantity: cartItem.quantity - 1
+                    quantity: cartItem.quantity - action.payload.quantity
                 };
                 return cartItem;
             }).filter((cartItem)=>cartItem.quantity > 0);
         default:
             return state;
     }
+}
+function addItemToCart(productId, quantity) {
+    return {
+        type: CART_ADD_ITEM,
+        payload: {
+            productId: productId,
+            quantity: quantity
+        }
+    };
+}
+function removeItemFromCart(productId, quantity) {
+    return {
+        type: CART_REMOVE_ITEM,
+        payload: {
+            productId: productId,
+            quantity: quantity
+        }
+    };
+}
+function increaseCartItemQuantity(productId, quantity) {
+    return {
+        type: CART_ITEM_INCREASE_QUANTITY,
+        payload: {
+            productId: productId,
+            quantity: quantity
+        }
+    };
+}
+function decreaseCartItemQuantity(productId, quantity) {
+    return {
+        type: CART_ITEM_DECREASE_QUANTITY,
+        payload: {
+            productId: productId,
+            quantity: quantity
+        }
+    };
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"KcLLW"}],"fIGBC":[function(require,module,exports,__globalThis) {
@@ -1445,6 +1440,8 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "WISHLIST_ADD_ITEM", ()=>WISHLIST_ADD_ITEM);
 parcelHelpers.export(exports, "WISHLIST_REMOVE_ITEM", ()=>WISHLIST_REMOVE_ITEM);
 parcelHelpers.export(exports, "default", ()=>wishListReducer);
+parcelHelpers.export(exports, "addItemToWishList", ()=>addItemToWishList);
+parcelHelpers.export(exports, "removeItemFromWishList", ()=>removeItemFromWishList);
 const WISHLIST_ADD_ITEM = "wishList/addItem";
 const WISHLIST_REMOVE_ITEM = "wishList/removeItem";
 function wishListReducer(state = [], action) {
@@ -1459,6 +1456,22 @@ function wishListReducer(state = [], action) {
         default:
             return state;
     }
+}
+function addItemToWishList(productId) {
+    return {
+        type: WISHLIST_ADD_ITEM,
+        payload: {
+            productId: productId
+        }
+    };
+}
+function removeItemFromWishList(productId) {
+    return {
+        type: WISHLIST_REMOVE_ITEM,
+        payload: {
+            productId: productId
+        }
+    };
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"KcLLW"}]},["ePtbd","kTBnD"], "kTBnD", "parcelRequire4963", {})

@@ -13,3 +13,16 @@ export default function wishListReducer(state=[], action){
       return state;
   }
 }
+
+export function addItemToWishList(productId){
+return {
+  type: WISHLIST_ADD_ITEM,
+  payload: {productId: productId }
+}
+}
+export function removeItemFromWishList(productId){
+return {
+  type: WISHLIST_REMOVE_ITEM,
+  payload: {productId: productId }
+}
+}
