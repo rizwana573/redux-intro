@@ -35,23 +35,8 @@ const reducer = myCombineReducers({
   wishList: wishListReducer,
 });
 
-const store = createStore(
+export const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-store.dispatch(addItemToCart(1, 1));
-console.log(store.getState());
-store.dispatch(addItemToCart(10, 1));
-console.log(store.getState());
-store.dispatch(removeItemFromCart(1,1));
-console.log(store.getState());
-store.dispatch(increaseCartItemQuantity(10, 4));
-console.log(store.getState());
-store.dispatch(decreaseCartItemQuantity(10,1));
-console.log(store.getState());
-store.dispatch(addItemToWishList(10));
-store.dispatch(addItemToWishList(2));
-console.log(store.getState());
-store.dispatch(removeItemFromWishList(10));
-console.log(store.getState());
