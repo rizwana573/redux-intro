@@ -1,4 +1,4 @@
-import {useSelector } from "react-redux";
+import {useSelector } from "../my-react-redux";
 import { Link } from 'react-router'
 
 export default function Header() {
