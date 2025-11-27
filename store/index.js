@@ -1,15 +1,7 @@
 import { createStore, combineReducers } from "redux";
 import productsReducer from "./productsReducer";
-import cartReducer, {
-  addItemToCart,
-  removeItemFromCart,
-  increaseCartItemQuantity,
-  decreaseCartItemQuantity,
-} from "./cartReducer";
-import wishListReducer, {
-  addItemToWishList,
-  removeItemFromWishList,
-} from "./wishListReducer";
+import cartReducer from "./cartReducer";
+import wishListReducer from "./wishListReducer";
 
 function myCombineReducers(reducers) {
   const reducersKeys = Object.keys(reducers);
@@ -40,3 +32,4 @@ export const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+console.log(store.getState());

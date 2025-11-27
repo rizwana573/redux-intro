@@ -1,22 +1,20 @@
-import { useSelector } from "react-redux";
-import Product from "../components/Product";
+import { useSelector } from 'react-redux'
+import Product from '../components/Product'
 
-const Home = () => {
-  const productsList = useSelector((state) => state.products);
+export default function Home() {
+  const productsList = useSelector((state) => state.products)
   return (
     <div className="products-container">
-      {productsList.map((product) => (
+      {productsList.map(({ id, title, rating, price, image }) => (
         <Product
-          key={product.id}
-          productId={product.id}
-          title={product.title}
-          rating={product.rating.rate}
-          price={product.price}
-          imageUrl={product.image}
+          key={id}
+          productId = {id}
+          title={title}
+          rating={rating.rate}
+          price={price}
+          imageUrl={image}
         />
       ))}
     </div>
-  );
-};
-
-export default Home;
+  )
+}

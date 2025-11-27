@@ -1,27 +1,21 @@
-import { Link } from "react-router";
-import { useSelector } from "react-redux";
+import {useSelector } from "react-redux";
+import { Link } from 'react-router'
 
-const Header = () => {
-  const cartIconUrl = new URL("../assets/cart-icon.svg", import.meta.url).href;
-  const cartItems = useSelector((state) => state.cartItems);
-
-  console.log(cartItems);
-
+export default function Header() {
+    const cartIcon = new URL('../assets/cart-icon.svg', import.meta.url);
+    const cartItems = useSelector(state => state.cartItems);
+    const cartQuantity = cartItems.reduce((acc, current)=> acc+current.quantity, 0);
   return (
     <header>
       <div className="header-contents">
         <h1>
-          <Link to="/">MyShoppy</Link>
+          <Link to="/">MyShoppee</Link>
         </h1>
         <Link className="cart-icon" to="/cart">
-          <img src={cartIconUrl} alt="cart-icon" />
-          <div className="cart-items-count">
-            {cartItems.reduce((acc, current) => acc + current.quantity, 0)}
-          </div>
+          <img src={cartIcon} alt="cart-icon" />
+          <div className="cart-items-count">{cartQuantity}</div>
         </Link>
       </div>
     </header>
-  );
-};
-
-export default Header;
+  )
+}

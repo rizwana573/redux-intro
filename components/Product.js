@@ -1,8 +1,9 @@
-import { useDispatch } from "react-redux";
-import { addItemToCart } from "../store/cartReducer";
+import {useDispatch } from "react-redux";
+import {addItemToCart} from "../store/cartReducer.js"
 
-export default function Product({ productId, title, rating, price, imageUrl }) {
+export default function Product({ title, productId, rating, price, imageUrl }) {
   const dispatch = useDispatch();
+  
   return (
     <div className="product">
       <div className="product-image">
@@ -18,17 +19,9 @@ export default function Product({ productId, title, rating, price, imageUrl }) {
         <p className="price">${price}</p>
       </div>
       <div className="cta-container">
-        <button
-          onClick={() => {
-            dispatch(
-              addItemToCart({ productId, title, rating, price, imageUrl })
-            );
-          }}
-        >
-          Add to Cart
-        </button>
+        <button onClick= {()=> dispatch(addItemToCart({title, productId, rating, price, imageUrl }))}>Add to Cart</button>
         <button>Buy Now</button>
       </div>
     </div>
-  );
+  )
 }

@@ -3,6 +3,33 @@ export const CART_REMOVE_ITEM = "cart/removeItem";
 export const CART_ITEM_INCREASE_QUANTITY = "cart/increaseItemQuantity";
 export const CART_ITEM_DECREASE_QUANTITY = "cart/decreaseItemQuantity";
 
+//action creators
+export function addItemToCart(productData) {
+  return {
+    type: CART_ADD_ITEM,
+    payload: productData,
+  };
+}
+export function removeItemFromCart(productId) {
+  return {
+    type: CART_REMOVE_ITEM,
+    payload: { productId },
+  };
+}
+export function increaseCartItemQuantity(productId) {
+  return {
+    type: CART_ITEM_INCREASE_QUANTITY,
+    payload: { productId},
+  };
+}
+export function decreaseCartItemQuantity(productId) {
+  return {
+    type: CART_ITEM_DECREASE_QUANTITY,
+    payload: { productId },
+  };
+}
+
+
 export default function cartReducer(state = [], action) {
   switch (action.type) {
     case CART_ADD_ITEM:
@@ -46,28 +73,3 @@ export default function cartReducer(state = [], action) {
   }
 }
 
-
-export function addItemToCart(productData) {
-  return {
-    type: CART_ADD_ITEM,
-    payload: productData,
-  };
-}
-export function removeItemFromCart(productId) {
-  return {
-    type: CART_REMOVE_ITEM,
-    payload: { productId },
-  };
-}
-export function increaseCartItemQuantity(productId) {
-  return {
-    type: CART_ITEM_INCREASE_QUANTITY,
-    payload: { productId},
-  };
-}
-export function decreaseCartItemQuantity(productId) {
-  return {
-    type: CART_ITEM_DECREASE_QUANTITY,
-    payload: { productId },
-  };
-}

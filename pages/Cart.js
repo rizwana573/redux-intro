@@ -1,9 +1,9 @@
-import {useSelector} from "react-redux"
 import CartItem from '../components/CartItem'
+import { useSelector } from 'react-redux'
 
 export default function Cart() {
-
-const cartItems = useSelector(state => state.cartItems);
+  const cartItems = useSelector((state) => state.cartItems);
+  
   return (
     <div className="cart-container">
       <h2>Items in Your Cart</h2>
@@ -17,7 +17,7 @@ const cartItems = useSelector(state => state.cartItems);
         {cartItems.map(({ productId, title, rating, price, imageUrl, quantity }) => (
           <CartItem
             key={productId}
-            productId = {productId}
+            productId={productId}
             title={title}
             price={price}
             quantity={quantity}
@@ -29,12 +29,7 @@ const cartItems = useSelector(state => state.cartItems);
           <div></div>
           <div></div>
           <div></div>
-          <div className="total">$
-            {cartItems.reduce(
-              (accumulator, currentItem) =>
-                accumulator + currentItem.quantity * currentItem.price,
-              0
-            )}</div>
+          <div className="total">${cartItems.reduce((acc, current)  => acc+(current.price*current.quantity),0)}</div>
         </div>
       </div>
     </div>
