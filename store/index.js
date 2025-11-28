@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from "redux";
-import productsReducer from "./productsReducer";
-import cartReducer from "./cartReducer";
-import wishListReducer from "./wishListReducer";
+import productsReducer from "./slices/productsSlice";
+import cartReducer from "./slices/cartSlice";
+import wishListReducer from "./slices/wishListSlice";
 
 function myCombineReducers(reducers) {
   const reducersKeys = Object.keys(reducers);
