@@ -9,21 +9,23 @@ export default function Home() {
   return isLoading ? (
     <h1 style={{ textAlign: "center" }}>Loading.... </h1>
   ) : (
-    // (<h1 style={{textAlign:'center'}}> {productsErr} </h1>) ||
     <>
-      <h1 style={{ textAlign: "center" }}> {productsErr} </h1>
-      <div className="products-container">
-        {productsList.map(({ id, title, rating, price, image }) => (
-          <Product
-            key={id}
-            productId={id}
-            title={title}
-            rating={rating.rate}
-            price={price}
-            imageUrl={image}
-          />
-        ))}
-      </div>
+      {productsErr ? (
+        <h1 style={{ textAlign: "center" }}> {productsErr} </h1>
+      ) : (
+        <div className="products-container">
+          {productsList.map(({ id, title, rating, price, image }) => (
+            <Product
+              key={id}
+              productId={id}
+              title={title}
+              rating={rating.rate}
+              price={price}
+              imageUrl={image}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }

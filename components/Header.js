@@ -5,11 +5,12 @@ import {
   fetchProducts,
   fetchProductsError,
 } from "../store/slices/productsSlice.js";
+import { loadCartItems, fetchCartItems, fetchCartItemsError } from "../store/slices/cartSlice.js";
 import { useEffect } from "react";
 
 export default function Header() {
   const cartIcon = new URL("../assets/cart-icon.svg", import.meta.url);
-  const cartItems = useSelector((state) => state.cartItems);
+  const cartItems = useSelector((state) => state.cartItems.list);
   const cartQuantity = cartItems.reduce(
     (acc, current) => acc + current.quantity,
     0
@@ -26,6 +27,14 @@ export default function Header() {
         dispatch(updateAllProducts(data));
       })
       .catch(() => dispatch(fetchProductsError()));
+
+    dispatch(fetchCartItems());
+    fetch("https://fakestoreapi.com/carts/5")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(loadCartItems(data));
+      })
+    .catch(() => dispatch(fetchCartItemsError()));
   }, []);
   return (
     <header>

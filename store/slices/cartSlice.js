@@ -6,33 +6,51 @@ const findIndex = (state, action) =>
   );
 const slice = createSlice({
   name: "cart",
-  initialState: [],
+  initialState: {
+    loading: false,
+    list: [],
+    error: "",
+  },
   reducers: {
+    fetchCartItems(state) {
+      state.loading = true;
+    },
+    fetchCartItemsError(state, action) {
+      state.loading = false;
+      state.error = action.payload || "Something went wrong!";
+    },
+    loadCartItems(state, action) {
+      state.loading = false;
+      state.list = action.payload.products;
+    },
     addItemToCart(state, action) {
-      const existingItemIndex = findIndex(state, action);
+      const existingItemIndex = findIndex(state.list, action);
       if (existingItemIndex !== -1) {
-        state[existingItemIndex].quantity += 1;
+        state.list[existingItemIndex].quantity += 1;
       } else {
-        state.push({ ...action.payload, quantity: 1 });
+        state.list.push({ ...action.payload, quantity: 1 });
       }
     },
     removeItemFromCart(state, action) {
-      const existingItemIndex = findIndex(state, action);
-      state.splice(existingItemIndex, 1);
+      const existingItemIndex = findIndex(state.list, action);
+      state.list.splice(existingItemIndex, 1);
     },
     increaseCartItemQuantity(state, action) {
-      const existingItemIndex = findIndex(state, action);
-      state[existingItemIndex].quantity += 1;
+      const existingItemIndex = findIndex(state.list, action);
+      state.list[existingItemIndex].quantity += 1;
     },
     decreaseCartItemQuantity(state, action) {
-      const existingItemIndex = findIndex(state, action);
-      state[existingItemIndex].quantity -= 1;
-      if (state[existingItemIndex].quantity === 0)
-        state.splice(existingItemIndex, 1);
+      const existingItemIndex = findIndex(state.list, action);
+      state.list[existingItemIndex].quantity -= 1;
+      if (state.list[existingItemIndex].quantity === 0)
+        state.list.splice(existingItemIndex, 1);
     },
   },
 });
 export const {
+  fetchCartItems,
+  fetchCartItemsError,
+  loadCartItems,
   addItemToCart,
   removeItemFromCart,
   increaseCartItemQuantity,
