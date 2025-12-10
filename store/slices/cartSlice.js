@@ -49,28 +49,38 @@ const slice = createSlice({
 });
 
 const getCartItems = ({ products, cartItems }) =>
-    cartItems.list.map(({ productId, quantity }) => {
+  cartItems.list
+    .map(({ productId, quantity }) => {
       const cartProducts = products.list.find(
         (product) => product.id === productId
       );
-      return {...cartProducts, quantity};
+      return { ...cartProducts, quantity };
     })
-    .filter(({title}) => title);
-   
-export const getAllCartItems = createSelector(getCartItems, state => state)
-export const getCartLoadingState = ({cartItems}) => cartItems.loading
-export const getCartItemsError = ({cartItems}) => cartItems.error;
+    .filter(({ title }) => title);
+
+export const getAllCartItems = createSelector(getCartItems, (state) => state);
+export const getCartLoadingState = ({ cartItems }) => cartItems.loading;
+export const getCartItemsError = ({ cartItems }) => cartItems.error;
 
 export const getCartItemList = (state) => state.cartItems.list;
 
 export const {
-  fetchCartItems,
-  fetchCartItemsError,
-  loadCartItems,
   addItemToCart,
   removeItemFromCart,
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
 } = slice.actions;
+
+const { fetchCartItems, fetchCartItemsError, loadCartItems } = slice.actions;
+
+export const fetchCartItemsData = (dispatch) => {
+  dispatch(fetchCartItems());
+  fetch(`https://fakestoreapi.com/carts/5`)
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch(loadCartItems(data));
+    })
+    .catch(() => dispatch(fetchCartItemsError));
+};
 
 export default slice.reducer;

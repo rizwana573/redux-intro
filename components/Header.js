@@ -1,18 +1,20 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router";
 import {
-  updateAllProducts,
-  fetchProducts,
-  fetchProductsError,
+  // updateAllProducts,
+  // fetchProducts,
+  // fetchProductsError,
+  fetchProductsData,
 } from "../store/slices/productsSlice.js";
 import {
-  loadCartItems,
-  fetchCartItems,
-  fetchCartItemsError,
+  // loadCartItems,
+  // fetchCartItems,
+  // fetchCartItemsError,
   getCartItemList,
+  fetchCartItemsData,
 } from "../store/slices/cartSlice.js";
 import { useEffect } from "react";
-import { fetchData } from "../store/middleware/api.js";
+// import { fetchData } from "../store/middleware/api.js";
 
 export default function Header() {
   const cartIcon = new URL("../assets/cart-icon.svg", import.meta.url);
@@ -26,38 +28,8 @@ export default function Header() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      fetchData({
-        url: "products",
-        onStart: fetchProducts.type,
-        onSuccess: updateAllProducts.type,
-        onError: fetchProductsError.type,
-      })
-    );
-    dispatch(
-      fetchData({
-        url: "carts/5",
-        onStart: fetchCartItems.type,
-        onSuccess: loadCartItems.type,
-        onError: fetchCartItemsError.type,
-      })
-    );
-    /*
-    dispatch(fetchProducts());
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(updateAllProducts(data));
-      })
-      .catch(() => dispatch(fetchProductsError()));
-
-    dispatch(fetchCartItems());
-    fetch("https://fakestoreapi.com/carts/5")
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(loadCartItems(data));
-      })
-      .catch(() => dispatch(fetchCartItemsError()));*/
+    dispatch(fetchProductsData);
+    dispatch(fetchCartItemsData);
   }, []);
   return (
     <header>
