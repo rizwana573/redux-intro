@@ -3,7 +3,8 @@ import productsReducer from "./slices/productsSlice";
 import cartReducer from "./slices/cartSlice";
 import wishListReducer from "./slices/wishListSlice";
 import { configureStore } from '@reduxjs/toolkit'
-import {logger} from "./middleware/logger.js"
+// import {logger} from "./middleware/logger.js"
+import {apiMiddleware} from "./middleware/api.js"
 
 // function myCombineReducers(reducers) {
 //   const reducersKeys = Object.keys(reducers);
@@ -30,5 +31,5 @@ export const store = configureStore({
     wishList: wishListReducer,
   },
   middleware: (getDefaultMiddleware) => 
-  getDefaultMiddleware().concat(logger)
+  getDefaultMiddleware().concat(apiMiddleware)
 });

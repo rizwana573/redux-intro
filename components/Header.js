@@ -5,12 +5,19 @@ import {
   fetchProducts,
   fetchProductsError,
 } from "../store/slices/productsSlice.js";
-import { loadCartItems, fetchCartItems, fetchCartItemsError } from "../store/slices/cartSlice.js";
+import {
+  loadCartItems,
+  fetchCartItems,
+  fetchCartItemsError,
+  getCartItemList,
+} from "../store/slices/cartSlice.js";
 import { useEffect } from "react";
+import { fetchData } from "../store/middleware/api.js";
 
 export default function Header() {
   const cartIcon = new URL("../assets/cart-icon.svg", import.meta.url);
-  const cartItems = useSelector((state) => state.cartItems.list);
+  const cartItems = useSelector(getCartItemList);
+
   const cartQuantity = cartItems.reduce(
     (acc, current) => acc + current.quantity,
     0
@@ -19,8 +26,24 @@ export default function Header() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(
+      fetchData({
+        url: "products",
+        onStart: fetchProducts.type,
+        onSuccess: updateAllProducts.type,
+        onError: fetchProductsError.type,
+      })
+    );
+    dispatch(
+      fetchData({
+        url: "carts/5",
+        onStart: fetchCartItems.type,
+        onSuccess: loadCartItems.type,
+        onError: fetchCartItemsError.type,
+      })
+    );
+    /*
     dispatch(fetchProducts());
-
     fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
       .then((data) => {
@@ -34,7 +57,7 @@ export default function Header() {
       .then((data) => {
         dispatch(loadCartItems(data));
       })
-    .catch(() => dispatch(fetchCartItemsError()));
+      .catch(() => dispatch(fetchCartItemsError()));*/
   }, []);
   return (
     <header>

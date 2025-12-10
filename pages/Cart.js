@@ -1,19 +1,12 @@
 import CartItem from "../components/CartItem";
 import { useSelector } from "react-redux";
+import {getAllCartItems, getCartLoadingState, getCartItemsError} from "../store/slices/cartSlice.js"
+
 
 export default function Cart() {
-  const cartItems = useSelector(({ products, cartItems }) =>
-    cartItems.list.map(({ productId, quantity }) => {
-      const cartProducts = products.list.find(
-        (product) => product.id === productId
-      );
-      return {...cartProducts, quantity};
-    })
-    .filter(({title}) => title)
-  );
-
-  const isLoading = useSelector(({cartItems}) => cartItems.loading);
-  const cartItemsErr = useSelector(({cartItems}) => cartItems.error);
+  const cartItems = useSelector(getAllCartItems);
+  const isLoading = useSelector(getCartLoadingState);
+  const cartItemsErr = useSelector(getCartItemsError);
 
   return isLoading ? (
     <h1 style={{ textAlign: "center" }}>Loading.... </h1>
